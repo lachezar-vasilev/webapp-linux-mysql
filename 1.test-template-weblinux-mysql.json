@@ -1,0 +1,176 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "siteName": {
+            "type": "string",
+            "defaultValue": "[concat('app-apiweb-', resourceGroup().name)]",
+            "metadata": {
+                "description": "The unique name of your Web Site."
+            }
+        },
+        "administratorLogin": {
+            "type": "string",
+            "minLength": 1,
+			"defaultValue": "adminuser",
+            "metadata": {
+                "description": "Database administrator login name"
+            }
+        },
+        "administratorLoginPassword": {
+            "type": "securestring",
+            "minLength": 8,
+            "metadata": {
+                "description": "Database administrator password"
+            }
+        },
+        "dbSkucapacity": {
+            "type": "int",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "Azure database for mySQL compute capacity in vCores (2,4,8,16,32)"
+            }
+        },
+        "dbSkuName": {
+            "type": "string",
+            "defaultValue": "B_Gen5_1",
+            "metadata": {
+                "description": "Azure database for mySQL sku name "
+            }
+        },
+        "dbSkuSizeMB": {
+            "type": "int",
+            "defaultValue": 5120,
+            "metadata": {
+                "description": "Azure database for mySQL Sku Size "
+            }
+        },
+        "dbSkuTier": {
+            "type": "string",
+            "defaultValue": "Basic",
+            "metadata": {
+                "description": "Azure database for mySQL pricing tier"
+            }
+        },
+        "mysqlVersion": {
+            "type": "string",
+            "defaultValue": "8.0",
+            "metadata": {
+                "description": "MySQL version"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "centralus",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "databaseskuFamily": {
+            "type": "string",
+            "defaultValue": "Gen5",
+            "metadata": {
+                "description": "Azure database for mySQL sku family"
+            }
+        }
+    },
+    "variables": {
+        "databaseName": "[concat('dba-mysql-', resourceGroup().name)]",
+        "serverName": "[concat('dbs-mysql-', resourceGroup().name)]",
+        "hostingPlanName": "[concat('hpn-mysql-', resourceGroup().name)]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-02-01",
+            "name": "[variables('hostingPlanName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "name": "[variables('hostingPlanName')]",
+                "workerSizeId": "1",
+                "reserved": true,
+                "numberOfWorkers": "1"
+            },
+            "sku": {
+                "Tier": "Basic",
+                "Name": "F1"
+            },
+            "kind": "linux"
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('siteName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[variables('hostingPlanName')]"
+            ],
+            "properties": {
+                "siteConfig": {
+                    "linuxFxVersion": "NODE|12 LTS",
+                    "connectionStrings": [
+                        {
+                            "name": "defaultConnection",
+                            "ConnectionString": "[concat('Database=', variables('databaseName'), ';Data Source=', reference(resourceId('Microsoft.DBforMySQL/servers',variables('serverName'))).fullyQualifiedDomainName,';User Id=',parameters('administratorLogin'),'@',variables('serverName') ,';Password=',parameters('administratorLoginPassword'))]",
+                            "type": "MySql"
+                        }
+                    ]
+                },
+                "name": "[parameters('siteName')]",
+                "serverFarmId": "[variables('hostingPlanName')]"
+            }
+        },
+        {
+            "type": "Microsoft.DBforMySQL/servers",
+            "apiVersion": "2017-12-01",
+            "location": "[parameters('location')]",
+            "name": "[variables('serverName')]",
+            "sku": {
+                "name": "[parameters('dbSkuName')]",
+                "tier": "[parameters('dbSkuTier')]",
+                "capacity": "[parameters('dbSkucapacity')]",
+                "size": "[parameters('dbSkuSizeMB')]",
+                "family": "[parameters('databaseSkuFamily')]"
+            },
+            "properties": {
+                "version": "[parameters('mysqlVersion')]",
+                "administratorLogin": "[parameters('administratorLogin')]",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "storageProfile": {
+                    "storageMB": "[parameters('dbSkuSizeMB')]",
+                    "backupRetentionDays": "7",
+                    "geoRedundantBackup": "Disabled"
+                },
+                "sslEnforcement": "Disabled"
+            },
+            "resources": [
+                {
+                    "type": "firewallrules",
+                    "apiVersion": "2017-12-01",
+                    "dependsOn": [
+                        "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'),'/databases/' , variables('databaseName'))]",
+                        "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'))]"
+                    ],
+                    "location": "[parameters('location')]",
+                    "name": "AllowAzureIPs",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "255.255.255.255"
+                    }
+                },
+                {
+                    "name": "[variables('databaseName')]",
+                    "type": "databases",
+                    "apiVersion": "2017-12-01",
+                    "properties": {
+                        "charset": "utf8",
+                        "collation": "utf8_general_ci"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'))]"
+                    ]
+                }
+            ]
+        }
+    ]
+}
