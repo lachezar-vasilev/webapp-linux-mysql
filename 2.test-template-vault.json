@@ -39,7 +39,7 @@
     },
     "enabledForTemplateDeployment": {
       "type": "bool",
-      "defaultValue": true,
+      "defaultValue": false,
       "allowedValues": [
         true,
         false
@@ -90,16 +90,11 @@
         "description": "Specifies whether the key vault is a standard vault or a premium vault."
       }
     },
-    "secretName": {
-      "type": "string",
+    "secretsObject": {
+      "type": "secureObject",
+      "defaultValue": "{}",
       "metadata": {
-        "description": "Specifies the name of the secret that you want to create."
-      }
-    },
-    "secretValue": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Specifies the value of the secret that you want to create."
+        "description": "Specifies all secrets {\"secretName\":\"\",\"secretValue\":\"\"} wrapped in a secure object."
       }
     }
   },
@@ -107,12 +102,15 @@
     {
       "type": "Microsoft.KeyVault/vaults",
       "name": "[parameters('keyVaultName')]",
-      "apiVersion": "2016-10-01",
       "location": "[parameters('location')]",
+      "apiVersion": "2016-10-01",
+      "tags": {
+        "displayName": "KeyVault"
+      },
       "properties": {
         "enabledForDeployment": "[parameters('enabledForDeployment')]",
-        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
         "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
         "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
           {
@@ -136,14 +134,17 @@
     },
     {
       "type": "Microsoft.KeyVault/vaults/secrets",
-      "name": "[concat(parameters('keyVaultName'), '/', parameters('secretName'))]",
+      "name": "[concat(parameters('keyVaultName'), '/', parameters('secretsObject').secrets[copyIndex()].secretName)]",
       "apiVersion": "2016-10-01",
-      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+        "[concat('Microsoft.KeyVault/vaults/', parameters('keyVaultName'))]"
       ],
+      "copy": {
+        "name": "secretsCopy",
+        "count": "[length(parameters('secretsObject').secrets)]"
+      },
       "properties": {
-        "value": "[parameters('secretValue')]"
+        "value": "[parameters('secretsObject').secrets[copyIndex()].secretValue]"
       }
     }
   ]

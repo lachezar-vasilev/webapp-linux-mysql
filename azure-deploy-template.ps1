@@ -38,7 +38,7 @@ Write-Host
        '1' {
          Connect-AzAccount -Tenant 3eaf366b-e9a9-4eca-b7ab-e5fa337c1fc3
 		   } 
-	   '2' {
+	     '2' {
          Connect-AzAccount -Tenant 3a07883a-9a4f-4fa2-baa9-74333ce2926b
 		   }
        '3' {
@@ -59,11 +59,11 @@ Write-Host
 
 Write-Host -NoNewLine 'Press any key to continue...' -ForegroundColor yellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+Write-Host
 
 ###### RESOURCE GROUP
 $rg = "rgr-test-" + (Get-Random -Maximum 100000)
 New-AzResourceGroup -Name $rg -Location centralus
-
 
 ###### URL TEMPLATE
 $templateUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-webapp-linux-managed-mysql/azuredeploy.json"
@@ -71,12 +71,13 @@ $paramUri    = ""
 $templateUri1= "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/2.test-template-vault.json"
 $paramUri1   = "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/2.test-parameters-vault.json"
 
-
 ###### DEPLOYMENT
 New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri -DeploymentDebugLogLevel All
 
 Write-Host -NoNewLine 'Press any key to continue...' -ForegroundColor yellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+Write-Host
+Write-Host
 
 New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri1 -TemplateParameterUri $paramUri1 -DeploymentDebugLogLevel All
 

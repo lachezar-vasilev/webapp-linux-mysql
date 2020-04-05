@@ -3,16 +3,24 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "keyVaultName": {
-      "value": "GEN-UNIQUE"
+      "value": "[concat('vault-', resourceGroup().name)]"
     },
     "objectId": {
-      "value": "GEN-AZUREAD-OBJECTID"
+      "value": "e2c9e029-7f3e-40f0-b4ac-4d0be07adce8"
     },
-    "secretName": {
-      "value": "Secret-1234"
-    },
-    "secretValue": {
-      "value": "GEN-UNIQUE"
+    "secretsObject": {
+      "value": {
+        "secrets": [
+          {
+            "secretName": "exampleSecret1",
+            "secretValue": "secretVaule1"
+          },
+          {
+            "secretName": "exampleSecret2",
+            "secretValue": "secretValue2"
+          }
+        ]
+      }
     }
   }
 }
