@@ -133,19 +133,20 @@
                 "family": "[parameters('databaseSkuFamily')]"
             },
             "properties": {
+                "createMode": "Default",
                 "version": "[parameters('mysqlVersion')]",
                 "administratorLogin": "[parameters('administratorLogin')]",
                 "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
                 "storageProfile": {
                     "storageMB": "[parameters('dbSkuSizeMB')]",
-                    "backupRetentionDays": "7",
+                    "backupRetentionDays": 7,
                     "geoRedundantBackup": "Disabled"
                 },
                 "sslEnforcement": "Disabled"
             },
             "resources": [
                 {
-                    "type": "firewallrules",
+                    "type": "firewallRules",
                     "apiVersion": "2017-12-01",
                     "dependsOn": [
                         "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'),'/databases/' , variables('databaseName'))]",
