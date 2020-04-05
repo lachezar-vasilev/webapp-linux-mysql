@@ -9,7 +9,7 @@
       "value": "GEN-AZUREAD-OBJECTID"
     },
     "secretName": {
-      "value": "GEN-UNIQUE"
+      "value": "Secret-1234"
     },
     "secretValue": {
       "value": "GEN-UNIQUE"
