@@ -48,14 +48,20 @@
         "description": "Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault."
       }
     },
-    "tenantId": {
+    "tenant_Id": {
       "type": "string",
       "defaultValue": "[subscription().tenantId]",
       "metadata": {
         "description": "Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet."
       }
     },
-    "objectId": {
+    "objectId_1": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets."
+      }
+    },
+    "objectId_2": {
       "type": "string",
       "metadata": {
         "description": "Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets."
@@ -114,8 +120,8 @@
         "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
           {
-               "tenantId": "3a07883a-9a4f-4fa2-baa9-74333ce2926b",
-               "objectId": "e2c9e029-7f3e-40f0-b4ac-4d0be07adce8",
+               "tenantId": "[parameters('tenant_Id')]",
+               "objectId": "[parameters('objectId_1')]",
                "permissions": {
                    "keys": [
                        "get",
@@ -156,8 +162,8 @@
             }
         },
         {
-            "tenantId": "3a07883a-9a4f-4fa2-baa9-74333ce2926b",
-            "objectId": "e3a766fd-5643-49e8-977b-644ef093707d",
+            "tenantId": "[parameters('tenant_Id')]",
+            "objectId": "[parameters('objectId_2')]",
             "permissions": {
                 "keys": [
                   "get",

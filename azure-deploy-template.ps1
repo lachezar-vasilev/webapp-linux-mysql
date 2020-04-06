@@ -18,22 +18,20 @@ Start-Transcript -Path $logfile -Append
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force
 
 ###### AZURE TENANT SIGN-IN
-$Title = "Sign-in Tenant"
 Write-Host
 Write-Host
 Write-Host
-    Write-Host "    ================ $Title ================"
-    Write-Host
-    Write-Host "          [1]: MENTORMATE"
-    Write-Host "          [2]: ORTHOLOGY"
-	  Write-Host "          [3]: RAYEDIE"
-    Write-Host "                         Press 'Q' to quit."
-    Write-Host
-    Write-Host "    ========================================"
-	Write-Host
-	$selection = Read-Host "Please make a selection"
+Write-Host "    ================ Sign-in Tenant ================"
+Write-Host
+Write-Host "          [1]: MENTORMATE"
+Write-Host "          [2]: ORTHOLOGY"
+Write-Host "          [3]: RAYEDIE"
+Write-Host "                                  Press 'Q' to quit."
+Write-Host "    ================================================="
+Write-Host
+$selection = Read-Host "Please make a selection"
 	
-	switch ($selection)
+switch ($selection)
  {
        '1' {
          Connect-AzAccount -Tenant 3eaf366b-e9a9-4eca-b7ab-e5fa337c1fc3
@@ -57,7 +55,8 @@ Get-AzResourceGroup
 Write-Host
 Write-Host
 
-Write-Host -NoNewLine 'Press any key new resource group to be created...' -ForegroundColor yellow
+Write-Host -NoNewLine 'Press any key new resource group to be created' -ForegroundColor yellow
+Write-Host -NoNewLine 'and to start template deployment...' -ForegroundColor yellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Write-Host
 

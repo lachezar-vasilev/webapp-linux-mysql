@@ -3,10 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "keyVaultName": {
-      "value": "vlt-test123456789"
+      "value": "[concat('vault-', resourceGroup().name)]"
     },
-    "objectId": {
+    "objectId_1": {
       "value": "e2c9e029-7f3e-40f0-b4ac-4d0be07adce8"
+    },
+    "objectId_2": {
+      "value": "e3a766fd-5643-49e8-977b-644ef093707d"
     },
     "secretsObject": {
       "value": {
