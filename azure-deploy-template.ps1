@@ -57,7 +57,7 @@ Get-AzResourceGroup
 Write-Host
 Write-Host
 
-Write-Host -NoNewLine 'Press any key to continue...' -ForegroundColor yellow
+Write-Host -NoNewLine 'Press any key new resource group to be created...' -ForegroundColor yellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Write-Host
 
@@ -72,7 +72,7 @@ $templateUri1= "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-
 $paramUri1   = "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/2.test-parameters-vault.json"
 
 ###### DEPLOYMENT
-#New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri -DeploymentDebugLogLevel All
+New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri -DeploymentDebugLogLevel All
 
 Write-Host -NoNewLine 'Press any key to continue...' -ForegroundColor yellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
