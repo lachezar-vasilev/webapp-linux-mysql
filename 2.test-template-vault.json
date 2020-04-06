@@ -114,13 +114,89 @@
         "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
           {
-            "objectId": "[parameters('objectId')]",
-            "tenantId": "[parameters('tenantId')]",
-            "permissions": {
-              "keys": "[parameters('keysPermissions')]",
-              "secrets": "[parameters('secretsPermissions')]"      
+               "tenantId": "3a07883a-9a4f-4fa2-baa9-74333ce2926b",
+               "objectId": "e2c9e029-7f3e-40f0-b4ac-4d0be07adce8",
+               "permissions": {
+                   "keys": [
+                       "get",
+                       "list",
+                       "update",
+                       "create",
+                       "import",
+                       "delete",
+                       "recover",
+                       "backup",
+                       "restore"
+                ],
+                "secrets": [
+                    "get",
+                    "list",
+                    "set",
+                    "delete",
+                    "recover",
+                    "backup",
+                    "restore"
+                ],
+                "certificates": [
+                    "get",
+                    "list",
+                    "update",
+                    "create",
+                    "import",
+                    "delete",
+                    "recover",
+                    "purge",
+                    "managecontacts",
+                    "manageissuers",
+                    "getissuers",
+                    "listissuers",
+                    "setissuers",
+                    "deleteissuers"
+                ]
             }
-          }
+        },
+        {
+            "tenantId": "3a07883a-9a4f-4fa2-baa9-74333ce2926b",
+            "objectId": "e3a766fd-5643-49e8-977b-644ef093707d",
+            "permissions": {
+                "keys": [
+                  "get",
+                  "list",
+                  "update",
+                  "create",
+                  "import",
+                  "delete",
+                  "recover",
+                  "backup",
+                  "restore"
+                ],
+                "secrets": [
+                  "get",
+                  "list",
+                  "set",
+                  "delete",
+                  "recover",
+                  "backup",
+                  "restore"
+                ],
+                "certificates": [
+                  "get",
+                  "list",
+                  "update",
+                  "create",
+                  "import",
+                  "delete",
+                  "recover",
+                  "purge",
+                  "managecontacts",
+                  "manageissuers",
+                  "getissuers",
+                  "listissuers",
+                  "setissuers",
+                  "deleteissuers"
+                ]
+            }
+        }
         ],
         "sku": {
           "name": "[parameters('skuName')]",
