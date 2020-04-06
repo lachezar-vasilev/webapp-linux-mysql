@@ -65,7 +65,7 @@ $rg = "rgr-test-" + (Get-Random -Maximum 100000)
 New-AzResourceGroup -Name $rg -Location centralus
 
 ###### URL TEMPLATE
-$templateUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-webapp-linux-managed-mysql/azuredeploy.json"
+#$templateUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-webapp-linux-managed-mysql/azuredeploy.json"
 #$paramUri    = ""
 $templateUri1= "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/2.test-template-vault.json"
 $paramUri1   = "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/2.test-parameters-vault.json"
