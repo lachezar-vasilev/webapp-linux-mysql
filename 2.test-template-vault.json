@@ -117,7 +117,7 @@
         "enabledForDeployment": "[parameters('enabledForDeployment')]",
         "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
         "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
-        "tenantId": "[parameters('tenantId')]",
+        "tenantId": "[parameters('tenant_Id')]",
         "accessPolicies": [
           {
                "tenantId": "[parameters('tenant_Id')]",

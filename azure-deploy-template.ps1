@@ -27,7 +27,7 @@ Write-Host "          [1]: MENTORMATE"
 Write-Host "          [2]: ORTHOLOGY"
 Write-Host "          [3]: RAYEDIE"
 Write-Host "                                  Press 'Q' to quit."
-Write-Host "    ================================================="
+Write-Host "    ================================================"
 Write-Host
 $selection = Read-Host "Please make a selection"
 	
@@ -55,7 +55,7 @@ Get-AzResourceGroup
 Write-Host
 Write-Host
 
-Write-Host -NoNewLine 'Press any key new resource group to be created' -ForegroundColor yellow
+Write-Host 'Press any key to be created new resource group' -ForegroundColor yellow
 Write-Host -NoNewLine 'and to start template deployment...' -ForegroundColor yellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Write-Host
@@ -66,14 +66,14 @@ New-AzResourceGroup -Name $rg -Location centralus
 
 ###### URL TEMPLATE
 $templateUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-webapp-linux-managed-mysql/azuredeploy.json"
-$paramUri    = ""
+#$paramUri    = ""
 $templateUri1= "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/2.test-template-vault.json"
 $paramUri1   = "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/2.test-parameters-vault.json"
 
 ###### DEPLOYMENT
-New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri -DeploymentDebugLogLevel All
+#New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri -DeploymentDebugLogLevel All
 
-Write-Host -NoNewLine 'Press any key to continue...' -ForegroundColor yellow
+Write-Host -NoNewLine 'Press any key to deploy next template...' -ForegroundColor yellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Write-Host
 Write-Host
