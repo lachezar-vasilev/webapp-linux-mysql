@@ -76,7 +76,7 @@
     },
     "variables": {
         "databaseName": "[concat('dba-mysql-', resourceGroup().name)]",
-        "serverName": "[concat('dbs-mysql-', resourceGroup().name)]",
+        "serverName": "dbs-mysql-rgr-test",
         "hostingPlanName": "[concat('hpn-mysql-', resourceGroup().name)]"
     },
     "resources": [

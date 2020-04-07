@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "keyVaultName": {
-      "value": "[concat('vlt', resourceGroup().location)]"
+      "value": "vlt-rgr-test"
     },
     "objectId_1": {
       "value": "e2c9e029-7f3e-40f0-b4ac-4d0be07adce8"
