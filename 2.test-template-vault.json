@@ -117,6 +117,8 @@
         "enabledForDeployment": "[parameters('enabledForDeployment')]",
         "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
         "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 2,
         "tenantId": "[parameters('tenant_Id')]",
         "accessPolicies": [
           {
