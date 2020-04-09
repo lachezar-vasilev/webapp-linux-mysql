@@ -1,0 +1,343 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "keyVaultName": {
+            "type": "string",
+            "metadata": {
+              "description": "Specifies the name of the key vault."
+            }
+        },
+          "location": {
+            "type": "string"
+            
+        },
+          "enabledForTemplateDeployment": {
+            "type": "bool"
+            
+        },
+          "tenant_Id": {
+            "type": "string"
+            
+        },
+          "objectId_1": {
+            "type": "string"
+            
+        },
+          "objectId_2": {
+            "type": "string"
+            
+        },
+          "keysPermissions": {
+            "type": "array",
+            "defaultValue": [
+              "list"
+            ],
+            "metadata": {
+              "description": "Specifies the permissions to keys in the vault. Valid values are: all, encrypt, decrypt, wrapKey, unwrapKey, sign, verify, get, list, create, update, import, delete, backup, restore, recover, and purge."
+            }
+        },
+          "secretsPermissions": {
+            "type": "array",
+            "defaultValue": [
+              "list"
+            ],
+            "metadata": {
+              "description": "Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge."
+            }
+        },
+          "VltSkuName": {
+            "type": "string"
+            
+        },
+          "secretsObject": {
+            "type": "secureObject",
+            "defaultValue": "{}",
+            "metadata": {
+              "description": "Specifies all secrets {\"secretName\":\"\",\"secretValue\":\"\"} wrapped in a secure object."
+            }
+        },
+        "siteName": {
+            "type": "string",
+            "metadata": {
+                "description": "The unique name of your Web Site."
+            }
+        },
+        "administratorLogin": {
+            "type": "string",
+            "minLength": 1,
+			"metadata": {
+                "description": "Database administrator login name"
+            }
+        },
+        "administratorLoginPassword": {
+            "type": "securestring",
+            "minLength": 8,
+            "metadata": {
+                "description": "Database administrator password"
+            }
+        },
+        "dbSkucapacity": {
+            "type": "int",
+            "metadata": {
+                "description": "Azure database for mySQL compute capacity in vCores (2,4,8,16,32)"
+            }
+        },
+        "dbSkuName": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure database for mySQL sku name "
+            }
+        },
+        "dbSkuSizeMB": {
+            "type": "int",
+            "metadata": {
+                "description": "Azure database for mySQL Sku Size "
+            }
+        },
+        "dbSkuTier": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure database for mySQL pricing tier"
+            }
+        },
+        "mysqlVersion": {
+            "type": "string",
+            "metadata": {
+                "description": "MySQL version"
+            }
+        },
+        "databaseskuFamily": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure database for mySQL sku family"
+            }
+        }
+    },
+    "variables": {
+        "databaseName": "[concat('dba-mysql-', resourceGroup().name)]",
+        "serverName": "[concat('dbs-mysql-', resourceGroup().name)]",
+        "hostingPlanName": "[concat('hpn-mysql-', resourceGroup().name)]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.KeyVault/vaults",
+            "name": "[parameters('keyVaultName')]",
+            "location": "[parameters('location')]",
+            "apiVersion": "2016-10-01",
+            "tags": {
+              "displayName": "KeyVault"
+            },
+            "properties": {
+              "enabledForDeployment": "[parameters('enabledForDeployment')]",
+              "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+              "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+              "enableSoftDelete": true,
+              "softDeleteRetentionInDays": 2,
+              "tenantId": "[parameters('tenant_Id')]",
+              "accessPolicies": [
+                {
+                     "tenantId": "[parameters('tenant_Id')]",
+                     "objectId": "[parameters('objectId_1')]",
+                     "permissions": {
+                         "keys": [
+                             "get",
+                             "list",
+                             "update",
+                             "create",
+                             "import",
+                             "delete",
+                             "recover",
+                             "backup",
+                             "restore"
+                      ],
+                      "secrets": [
+                          "get",
+                          "list",
+                          "set",
+                          "delete",
+                          "recover",
+                          "backup",
+                          "restore"
+                      ],
+                      "certificates": [
+                          "get",
+                          "list",
+                          "update",
+                          "create",
+                          "import",
+                          "delete",
+                          "recover",
+                          "purge",
+                          "managecontacts",
+                          "manageissuers",
+                          "getissuers",
+                          "listissuers",
+                          "setissuers",
+                          "deleteissuers"
+                      ]
+                  }
+              },
+              {
+                  "tenantId": "[parameters('tenant_Id')]",
+                  "objectId": "[parameters('objectId_2')]",
+                  "permissions": {
+                      "keys": [
+                        "get",
+                        "list",
+                        "update",
+                        "create",
+                        "import",
+                        "delete",
+                        "recover",
+                        "backup",
+                        "restore"
+                      ],
+                      "secrets": [
+                        "get",
+                        "list",
+                        "set",
+                        "delete",
+                        "recover",
+                        "backup",
+                        "restore"
+                      ],
+                      "certificates": [
+                        "get",
+                        "list",
+                        "update",
+                        "create",
+                        "import",
+                        "delete",
+                        "recover",
+                        "purge",
+                        "managecontacts",
+                        "manageissuers",
+                        "getissuers",
+                        "listissuers",
+                        "setissuers",
+                        "deleteissuers"
+                      ]
+                  }
+              }
+              ],
+              "sku": {
+                "name": "[parameters('VltSkuName')]",
+                "family": "A"
+              },
+              "networkAcls": {
+                  "defaultAction": "Allow",
+                  "bypass": "AzureServices"
+              }
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "name": "[concat(parameters('keyVaultName'), '/', parameters('secretsObject').secrets[copyIndex()].secretName)]",
+            "apiVersion": "2016-10-01",
+            "dependsOn": [
+              "[concat('Microsoft.KeyVault/vaults/', parameters('keyVaultName'))]"
+            ],
+            "copy": {
+              "name": "secretsCopy",
+              "count": "[length(parameters('secretsObject').secrets)]"
+            },
+            "properties": {
+              "value": "[parameters('secretsObject').secrets[copyIndex()].secretValue]"
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-02-01",
+            "name": "[variables('hostingPlanName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "name": "[variables('hostingPlanName')]",
+                "workerSizeId": "1",
+                "reserved": true,
+                "numberOfWorkers": "1"
+            },
+            "sku": {
+                "Tier": "Basic",
+                "Name": "F1"
+            },
+            "kind": "linux"
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('siteName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[variables('hostingPlanName')]"
+            ],
+            "properties": {
+                "siteConfig": {
+                    "linuxFxVersion": "NODE|12 LTS",
+                    "connectionStrings": [
+                        {
+                            "name": "defaultConnection",
+                            "ConnectionString": "[concat('Database=', variables('databaseName'), ';Data Source=', reference(resourceId('Microsoft.DBforMySQL/servers',variables('serverName'))).fullyQualifiedDomainName,';User Id=',parameters('administratorLogin'),'@',variables('serverName') ,';Password=',parameters('administratorLoginPassword'))]",
+                            "type": "MySql"
+                        }
+                    ]
+                },
+                "name": "[parameters('siteName')]",
+                "serverFarmId": "[variables('hostingPlanName')]"
+            }
+        },
+        {
+            "type": "Microsoft.DBforMySQL/servers",
+            "apiVersion": "2017-12-01",
+            "location": "[parameters('location')]",
+            "name": "[variables('serverName')]",
+            "sku": {
+                "name": "[parameters('dbSkuName')]",
+                "tier": "[parameters('dbSkuTier')]",
+                "capacity": "[parameters('dbSkucapacity')]",
+                "size": "[parameters('dbSkuSizeMB')]",
+                "family": "[parameters('databaseSkuFamily')]"
+            },
+            "properties": {
+                "createMode": "Default",
+                "version": "[parameters('mysqlVersion')]",
+                "administratorLogin": "[parameters('administratorLogin')]",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "storageProfile": {
+                    "storageMB": "[parameters('dbSkuSizeMB')]",
+                    "backupRetentionDays": 7,
+                    "geoRedundantBackup": "Disabled"
+                },
+                "sslEnforcement": "Disabled"
+            },
+            "resources": [
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2017-12-01",
+                    "dependsOn": [
+                        "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'),'/databases/' , variables('databaseName'))]",
+                        "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'))]"
+                    ],
+                    "location": "[parameters('location')]",
+                    "name": "AllowAzureIPs",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "255.255.255.255"
+                    }
+                },
+                {
+                    "name": "[variables('databaseName')]",
+                    "type": "databases",
+                    "apiVersion": "2017-12-01",
+                    "properties": {
+                        "charset": "utf8",
+                        "collation": "utf8_general_ci"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'))]"
+                    ]
+                }
+            ]
+        }
+    ]
+}
