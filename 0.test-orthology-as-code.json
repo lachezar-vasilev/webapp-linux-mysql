@@ -115,9 +115,9 @@
         }
     },
     "variables": {
-        "databaseName": "[concat('dba-mysql-', resourceGroup().name)]",
-        "serverName": "[concat('dbs-mysql-', resourceGroup().name)]",
-        "hostingPlanName": "[concat('hpn-mysql-', resourceGroup().name)]"
+        "databaseName": "[concat('dbmysql-test-', resourceGroup().name)]",
+        "serverName": "[concat('dbsmysql-test-', resourceGroup().name)]",
+        "hostingPlanName": "[concat('asp-test-', resourceGroup().name)]"
     },
     "resources": [
         {

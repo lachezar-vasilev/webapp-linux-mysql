@@ -14,7 +14,7 @@
         "value": true
       },
       "siteName": {
-        "value": "[concat('app-apiweb-', resourceGroup().name)]"
+        "value": "[concat('api-test-', resourceGroup().name)]"
       },
       "administratorLogin": {
         "value": "adminuser"
@@ -41,7 +41,7 @@
         "value": "Gen5"
       },
       "keyVaultName": {
-        "value": "[concat('vlt','-',uniqueString(resourceGroup().name))]"
+        "value": "vlt-mobile-backend"
       },
       "objectId_1": {
         "value": "e2c9e029-7f3e-40f0-b4ac-4d0be07adce8"
