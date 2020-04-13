@@ -16,7 +16,13 @@
             "type": "bool"
             
         },
-          "tenant_Id": {
+        "enabledForDeployment": {
+            "type": "bool"
+        },
+          "enabledForDiskEncryption": {
+            "type": "bool"
+        },  
+        "tenant_Id": {
             "type": "string"
             
         },
@@ -76,7 +82,7 @@
             "metadata": {
                 "description": "Database administrator password"
             }
-        },
+        },    
         "dbSkucapacity": {
             "type": "int",
             "metadata": {

@@ -13,8 +13,14 @@
       "enabledForTemplateDeployment": {
         "value": true
       },
+      "enabledForDeployment": {
+        "value": false
+      },
+      "enabledForDiskEncryption": {
+        "value": false
+      },
       "siteName": {
-        "value": "[concat('api-test-', resourceGroup().name)]"
+        "value": "api-test-12345"
       },
       "administratorLogin": {
         "value": "adminuser"
@@ -35,7 +41,7 @@
         "value": "8.0"
       },
       "location": {
-        "value": "[resourceGroup().location]"
+        "value": "centralus"
       },
       "databaseskuFamily": {
         "value": "Gen5"
