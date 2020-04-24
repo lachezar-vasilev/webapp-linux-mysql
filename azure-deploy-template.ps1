@@ -64,21 +64,26 @@ Write-Host
 $rg = "rgr-test-" + (Get-Random -Maximum 100000)
 New-AzResourceGroup -Name $rg -Location centralus
 
-###### URL TEMPLATE
+###### TEMPLATE
+$templateFile = "g:\My Drive\Azure\Code\webappplan-free-template.json"
+$paramFile    = "g:\My Drive\Azure\Code\webappplan-free-parameters.json"
 #$templateUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-webapp-linux-managed-mysql/azuredeploy.json"
 #$paramUri    = ""
-$templateUri1= "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/0.test-orthology-as-code.json"
-$paramUri1   = "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/0.test-orthology-as-code-parameters.json"
+#$templateUri1= "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/0.test-orthology-as-code.json"
+#$paramUri1   = "https://raw.githubusercontent.com/lachezar-vasilev/webapp-linux-mysql/master/0.test-orthology-as-code-parameters.json"
 
 ###### DEPLOYMENT
+
+New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $templateFile -TemplateParameterFile $paramFile -DeploymentDebugLogLevel All
+
 #New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri -DeploymentDebugLogLevel All
 
-Write-Host -NoNewLine 'Press any key to deploy next template...' -ForegroundColor yellow
-$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+#Write-Host -NoNewLine 'Press any key to deploy next template...' -ForegroundColor yellow
+#$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Write-Host
 Write-Host
 
-New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri1 -TemplateParameterUri $paramUri1 -DeploymentDebugLogLevel All
+#New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateUri $templateUri1 -TemplateParameterUri $paramUri1 -DeploymentDebugLogLevel All
 
 
 ###### STOP CONSOLE RECORDING
@@ -92,10 +97,8 @@ Stop-Transcript
 
 
 ###### NOT USED
-#New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $param -DeploymentDebugLogLevel All
 #-TemplateParameterUri $paramUri
-#$template = "g:\My Drive\Azure\Code\azure-weblinux-mysql.json"
-#$param     = "g:\My Drive\Azure\Code\"
+
 
 
 
